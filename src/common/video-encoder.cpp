@@ -79,6 +79,7 @@ void VideoEncoder::setBitrate(uint32_t value)
 	throw IpcamError(property_not_implemented);
 }
 
+#ifdef HAVE_OSD
 VideoOSD* VideoEncoder::CreateOSD()
 {
 	throw IpcamError(property_not_implemented);
@@ -88,6 +89,7 @@ void VideoEncoder::DeleteOSD(VideoOSD* osd)
 {
 	throw IpcamError(property_not_implemented);
 }
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // H264VideoEncoder

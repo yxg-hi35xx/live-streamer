@@ -35,8 +35,10 @@
 
 #include <EvUsageEnvironment.h>
 
+#ifdef HAVE_OSD
 #include <ft2build.h>
 #include <freetype/freetype.h>
+#endif
 
 #include <dbus/dbus.h>
 #include <dbus-c++/dbus.h>
@@ -236,11 +238,13 @@ int main(int argc, char *argv[])
 		DBus::Connection::SystemBus() : DBus::Connection::SessionBus();
 	conn.request_name(IPCAM_SERVER_NAME);
 
-	FT_Library freetype;
-	if (FT_Init_FreeType(&freetype)) {
-		fprintf(stderr, "FT_Init_FreeType failed\n");
-		return 1;
-	}
+#if defined(HAVE_OSD)
+    FT_Library freetype;
+    if (FT_Init_FreeType(&freetype)) {
+        fprintf(stderr, "FT_Init_FreeType failed\n");
+        return 1;
+    }
+#endif
 
 	IpcamRuntime *runtime = new IpcamRuntime(config_file, mainloop, rtspServer, &conn);
 
@@ -257,7 +261,9 @@ int main(int argc, char *argv[])
 
 	delete runtime;
 
-	FT_Done_FreeType(freetype);
+#if defined(HAVE_OSD)
+    FT_Done_FreeType(freetype);
+#endif
 
 	Medium::close(rtspServer);
 

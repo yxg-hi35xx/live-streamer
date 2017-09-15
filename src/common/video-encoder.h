@@ -55,8 +55,10 @@ public:
 	virtual uint32_t			getBitrate();
 	virtual void				setBitrate(uint32_t value);
 
+#ifdef HAVE_OSD
 	virtual VideoOSD*			CreateOSD();
 	virtual void				DeleteOSD(VideoOSD* osd);
+#endif
 
 protected:
 	VideoEncoder();

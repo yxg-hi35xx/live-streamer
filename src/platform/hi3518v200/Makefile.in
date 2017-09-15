@@ -88,6 +88,13 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@ENABLE_OSD_TRUE@am__append_1 = \
+@ENABLE_OSD_TRUE@	$(SDL_CFLAGS)
+
+@ENABLE_OSD_TRUE@am__append_2 = \
+@ENABLE_OSD_TRUE@	himpp-video-region.cpp \
+@ENABLE_OSD_TRUE@	himpp-video-region.h
+
 subdir = src/platform/hi3518v200
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
@@ -104,10 +111,18 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libhi3518v200_la_DEPENDENCIES =  \
 	$(top_builddir)/src/common/libcommon.la
+am__libhi3518v200_la_SOURCES_DIST = himpp-common.h himpp-base.cpp \
+	himpp-base.h himpp-sysctl.cpp himpp-sysctl.h himpp-audio.cpp \
+	himpp-audio.h himpp-video-sensor.cpp himpp-video-sensor.h \
+	himpp-video-isp.cpp himpp-video-isp.h himpp-video-viu.cpp \
+	himpp-video-viu.h himpp-video-vpss.cpp himpp-video-vpss.h \
+	himpp-video-venc.cpp himpp-video-venc.h himpp-media.cpp \
+	himpp-media.h himpp-video-region.cpp himpp-video-region.h
+@ENABLE_OSD_TRUE@am__objects_1 = himpp-video-region.lo
 am_libhi3518v200_la_OBJECTS = himpp-base.lo himpp-sysctl.lo \
 	himpp-audio.lo himpp-video-sensor.lo himpp-video-isp.lo \
 	himpp-video-viu.lo himpp-video-vpss.lo himpp-video-venc.lo \
-	himpp-video-region.lo himpp-media.lo
+	himpp-media.lo $(am__objects_1)
 libhi3518v200_la_OBJECTS = $(am_libhi3518v200_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -166,7 +181,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libhi3518v200_la_SOURCES)
-DIST_SOURCES = $(libhi3518v200_la_SOURCES)
+DIST_SOURCES = $(am__libhi3518v200_la_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -336,45 +351,24 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = \
-	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	-I. -I$(top_srcdir)/src -I$(top_srcdir)/src/common \
-	-I$(top_srcdir)/src/rtsp-server -I$(top_srcdir)/src/dbus \
-	-I$(top_builddir)/src/dbus \
-	$(LIVE555_CPPFLAGS) \
-	$(DBUSXX_CFLAGS) \
-	$(SDL_CFLAGS) \
-	$(HI3518V200_CPPFLAGS)
-
+AM_CPPFLAGS = -DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" -I. -I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/common -I$(top_srcdir)/src/rtsp-server \
+	-I$(top_srcdir)/src/dbus -I$(top_builddir)/src/dbus \
+	$(LIVE555_CPPFLAGS) $(DBUSXX_CFLAGS) $(HI3518V200_CPPFLAGS) \
+	$(am__append_1)
 AM_CFLAGS = -Wall
 AM_CXXFLAGS = -Wall
 noinst_LTLIBRARIES = \
 	libhi3518v200.la
 
-libhi3518v200_la_SOURCES = \
-	himpp-common.h \
-	himpp-base.cpp \
-	himpp-base.h \
-	himpp-sysctl.cpp \
-	himpp-sysctl.h \
-	himpp-audio.cpp \
-	himpp-audio.h \
-	himpp-video-sensor.cpp \
-	himpp-video-sensor.h \
-	himpp-video-isp.cpp \
-	himpp-video-isp.h \
-	himpp-video-viu.cpp \
-	himpp-video-viu.h \
-	himpp-video-vpss.cpp \
-	himpp-video-vpss.h \
-	himpp-video-venc.cpp \
-	himpp-video-venc.h \
-	himpp-video-region.cpp \
-	himpp-video-region.h \
-	himpp-media.cpp \
-	himpp-media.h
-
+libhi3518v200_la_SOURCES = himpp-common.h himpp-base.cpp himpp-base.h \
+	himpp-sysctl.cpp himpp-sysctl.h himpp-audio.cpp himpp-audio.h \
+	himpp-video-sensor.cpp himpp-video-sensor.h \
+	himpp-video-isp.cpp himpp-video-isp.h himpp-video-viu.cpp \
+	himpp-video-viu.h himpp-video-vpss.cpp himpp-video-vpss.h \
+	himpp-video-venc.cpp himpp-video-venc.h himpp-media.cpp \
+	himpp-media.h $(am__append_2)
 libhi3518v200_la_LIBADD = \
 	$(top_builddir)/src/common/libcommon.la
 

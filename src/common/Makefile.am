@@ -3,10 +3,14 @@
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/src -I$(srcdir) -I$(builddir) \
-	$(DBUSXX_CFLAGS) \
+	$(DBUSXX_CFLAGS)
+
+if ENABLE_OSD
+AM_CPPFLAGS += \
 	$(FREETYPE_CFLAGS) \
 	$(FONTCONFIG_CFLAGS) \
 	$(SDL_CFLAGS)
+endif
 
 AM_CFLAGS = -Wall
 AM_CXXFLAGS = -Wall
@@ -29,6 +33,10 @@ libcommon_la_SOURCES =  \
 	audio-source.cpp \
 	audio-source.h \
 	audio-encoder.cpp \
-	audio-encoder.h \
+	audio-encoder.h
+
+if ENABLE_OSD
+libcommon_la_SOURCES += \
 	video-osd.cpp \
 	video-osd.h
+endif

@@ -23,14 +23,20 @@ AC_USE_SYSTEM_EXTENSIONS
 
 LT_INIT
 
+AC_ARG_ENABLE(osd,
+              AS_HELP_STRING([--enable-osd],[Enable on screen display. [default=yes]]),
+              [enable_osd=no],
+              [enable_osd=yes])
+
+AS_IF([test "x$enable_osd" = "xyes"],
+      [AM_CONDITIONAL([ENABLE_OSD], [true])
+       PKG_CHECK_MODULES(FREETYPE, [freetype2])
+       PKG_CHECK_MODULES(FONTCONFIG, [fontconfig])
+       PKG_CHECK_MODULES(SDL, [sdl SDL_ttf SDL_image])
+       AC_DEFINE([HAVE_OSD], [1], [Define to 1 if osd enabled])],
+[AM_CONDITIONAL([ENABLE_OSD], [false])])
 
 PKG_CHECK_MODULES(DBUSXX, [dbus-c++-1])
-
-PKG_CHECK_MODULES(FREETYPE, [freetype2])
-
-PKG_CHECK_MODULES(FONTCONFIG, [fontconfig])
-
-PKG_CHECK_MODULES(SDL, [sdl SDL_ttf SDL_image])
 
 PKG_CHECK_MODULES(JSONCPP, [jsoncpp],
 	[have_jsoncpp=yes], [have_jsoncpp=no])

@@ -89,6 +89,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@ENABLE_OSD_TRUE@am__append_1 = \
+@ENABLE_OSD_TRUE@	dbus-video-osd.cpp \
+@ENABLE_OSD_TRUE@	dbus-video-osd.h
+
 subdir = src/dbus
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
@@ -105,11 +109,21 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libdbus_iface_la_DEPENDENCIES =  \
 	$(top_builddir)/src/common/libcommon.la
+am__libdbus_iface_la_SOURCES_DIST = dbusxx-libev-integration.cpp \
+	dbusxx-libev-integration.h audio-source-server-glue.h \
+	audio-encoder-server-glue.h video-source-server-glue.h \
+	video-encoder-server-glue.h video-osd-server-glue.h \
+	dbus-ipcam-base.cpp dbus-ipcam-base.h dbus-audio-source.cpp \
+	dbus-audio-source.h dbus-audio-encoder.cpp \
+	dbus-audio-encoder.h dbus-video-source.cpp dbus-video-source.h \
+	dbus-video-encoder.cpp dbus-video-encoder.h dbus-video-osd.cpp \
+	dbus-video-osd.h
 am__objects_1 =
+@ENABLE_OSD_TRUE@am__objects_2 = dbus-video-osd.lo
 am_libdbus_iface_la_OBJECTS = dbusxx-libev-integration.lo \
 	$(am__objects_1) dbus-ipcam-base.lo dbus-audio-source.lo \
-	dbus-audio-encoder.lo dbus-video-osd.lo dbus-video-source.lo \
-	dbus-video-encoder.lo
+	dbus-audio-encoder.lo dbus-video-source.lo \
+	dbus-video-encoder.lo $(am__objects_2)
 libdbus_iface_la_OBJECTS = $(am_libdbus_iface_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -168,7 +182,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libdbus_iface_la_SOURCES)
-DIST_SOURCES = $(libdbus_iface_la_SOURCES)
+DIST_SOURCES = $(am__libdbus_iface_la_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -384,23 +398,12 @@ BUILT_SOURCES = \
 	video-encoder-server-glue.h \
 	video-osd-server-glue.h
 
-libdbus_iface_la_SOURCES = \
-	dbusxx-libev-integration.cpp \
-	dbusxx-libev-integration.h \
-	$(BUILT_SOURCES) \
-	dbus-ipcam-base.cpp \
-	dbus-ipcam-base.h \
-	dbus-audio-source.cpp \
-	dbus-audio-source.h \
-	dbus-audio-encoder.cpp \
-	dbus-audio-encoder.h \
-	dbus-video-osd.cpp \
-	dbus-video-osd.h \
-	dbus-video-source.cpp \
-	dbus-video-source.h \
-	dbus-video-encoder.cpp \
-	dbus-video-encoder.h
-
+libdbus_iface_la_SOURCES = dbusxx-libev-integration.cpp \
+	dbusxx-libev-integration.h $(BUILT_SOURCES) \
+	dbus-ipcam-base.cpp dbus-ipcam-base.h dbus-audio-source.cpp \
+	dbus-audio-source.h dbus-audio-encoder.cpp \
+	dbus-audio-encoder.h dbus-video-source.cpp dbus-video-source.h \
+	dbus-video-encoder.cpp dbus-video-encoder.h $(am__append_1)
 libdbus_iface_la_LIBADD = \
 	$(top_builddir)/src/common/libcommon.la
 

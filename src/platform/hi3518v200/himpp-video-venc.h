@@ -78,8 +78,10 @@ public:
 
 	void				requestIDR();
 
+#ifdef HAVE_OSD
 	VideoOSD*			CreateOSD();
 	void				DeleteOSD(VideoOSD*);
+#endif
 
 	// local functions
 	VENC_CHN channelId() { return _chnid; }
@@ -103,7 +105,9 @@ private:
 
 	ev::io						_io;
 
+#ifdef HAVE_OSD
 	std::set<SoftRenderVideoOSD*>	_osds;
+#endif
 
 	void watch_handler(ev::io& w, int revents);
 

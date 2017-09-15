@@ -131,6 +131,7 @@ void VideoEncoder::LoadConfig()
 	IpcamBase::LoadConfig();
 
 	Json::Value& root = _runtime.config_root();
+#ifdef HAVE_OSD
 	// Load OSD configuration according the config
 	for (int i = 0; i < 8; i++) {
 		std::string opath(path() + "/OSD/" + std::to_string(i));
@@ -145,12 +146,14 @@ void VideoEncoder::LoadConfig()
 		VideoOSD& o = oit->second;
 		o.LoadConfig();
 	}
+#endif
 }
 #endif
 
 uint32_t VideoEncoder::CreateOSD()
 {
 	uint32_t index = 0;
+#ifdef HAVE_OSD
 	while (_osds.find(index) != _osds.end()) index++;
 	std::string obj_path = path() + "/OSD/" + std::to_string(index);
 	Ipcam::Media::VideoOSD* video_osd = _video_encoder->CreateOSD();
@@ -160,24 +163,29 @@ uint32_t VideoEncoder::CreateOSD()
 	_osds.emplace(std::piecewise_construct,
 				  std::forward_as_tuple(index),
 				  std::forward_as_tuple(_runtime, obj_path, video_osd));
+#endif
 
 	return index;
 }
 
 void VideoEncoder::DeleteOSD(const uint32_t& index)
 {
+#ifdef HAVE_OSD
 	_osds.erase(index);
+#endif
 }
 
 std::map< uint32_t, Path > VideoEncoder::GetOSDs()
 {
 	std::map<uint32_t, Path> result;
+#ifdef HAVE_OSD
 	for (auto it = _osds.begin(); it != _osds.end(); it++) {
 		uint32_t index = it->first;
 		Path venc_path = path();
 		std::string obj_path = path() + "/OSD/" + std::to_string(index);
 		result.emplace(index, obj_path);
 	}
+#endif
 	return result;
 }
 

@@ -21,14 +21,18 @@
 #define _DBUS_VIDEO_ENCODER_H_
 
 #include "dbus-ipcam-base.h"
+#ifdef HAVE_OSD
 #include "dbus-video-osd.h"
+#endif
 #include "video-encoder-server-glue.h"
 
 using namespace Ipcam::Media;
 
 namespace DBus {
 
+#ifdef HAVE_OSD
 typedef std::unordered_map<uint32_t, VideoOSD> VideoOSDTable;
+#endif
 
 class VideoEncoder : 
 	public ipcam::Media::VideoEncoder_adaptor,
@@ -54,8 +58,10 @@ public:
 protected:
 	Ipcam::Media::VideoEncoder* _video_encoder;
 private:
+#ifdef HAVE_OSD
 	VideoOSDTable _osds;
 	VideoOSD& NewOSD(const uint32_t index);
+#endif
 };
 
 class H264VideoEncoder : 

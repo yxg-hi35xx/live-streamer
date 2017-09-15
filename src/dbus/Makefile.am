@@ -28,12 +28,16 @@ libdbus_iface_la_SOURCES =  \
 	dbus-audio-source.h \
 	dbus-audio-encoder.cpp \
 	dbus-audio-encoder.h \
-	dbus-video-osd.cpp \
-	dbus-video-osd.h \
 	dbus-video-source.cpp \
 	dbus-video-source.h \
 	dbus-video-encoder.cpp \
 	dbus-video-encoder.h
+
+if ENABLE_OSD
+libdbus_iface_la_SOURCES += \
+	dbus-video-osd.cpp \
+	dbus-video-osd.h
+endif
 
 libdbus_iface_la_LIBADD = \
 	$(top_builddir)/src/common/libcommon.la

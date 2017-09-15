@@ -271,6 +271,7 @@ void HimppVencChan::requestIDR()
 	}
 }
 
+#ifdef HAVE_OSD
 VideoOSD* HimppVencChan::CreateOSD()
 {
 	RGN_HANDLE handle = himpp_region_allocator.allocHandle();
@@ -296,6 +297,7 @@ void HimppVencChan::DeleteOSD(VideoOSD* osd)
 {
 	_osds.erase(SOFT_RENDER_VIDEO_OSD(osd));
 }
+#endif
 
 MPP_CHN_S* HimppVencChan::bindSource()
 {
@@ -584,9 +586,11 @@ void HimppVencChan::doEnableElement()
 		goto err_stop_recv_pic;
 	}
 
+#ifdef HAVE_OSD
 	for (auto it : _osds) {
 		it->enable();
 	}
+#endif
 
 	return;
 
@@ -606,10 +610,12 @@ void HimppVencChan::doDisableElement()
 	HI_S32 s32Ret;
 	VENC_CROP_CFG_S dis_crop = { .bEnable = HI_FALSE };
 
+#ifdef HAVE_OSD
 	for (auto it : _osds) {
 		if (it->is_enabled())
 			it->disable();
 	}
+#endif
 
 	MPP_CHN_S dst_chn = {
 		.enModId = HI_ID_VENC,

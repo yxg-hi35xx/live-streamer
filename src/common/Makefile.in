@@ -88,6 +88,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@ENABLE_OSD_TRUE@am__append_1 = \
+@ENABLE_OSD_TRUE@	$(FREETYPE_CFLAGS) \
+@ENABLE_OSD_TRUE@	$(FONTCONFIG_CFLAGS) \
+@ENABLE_OSD_TRUE@	$(SDL_CFLAGS)
+
+@ENABLE_OSD_TRUE@am__append_2 = \
+@ENABLE_OSD_TRUE@	video-osd.cpp \
+@ENABLE_OSD_TRUE@	video-osd.h
+
 subdir = src/common
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
@@ -103,9 +112,16 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libcommon_la_LIBADD =
+am__libcommon_la_SOURCES_DIST = media-common.cpp media-common.h \
+	media-element.cpp media-element.h media-stream.cpp \
+	media-stream.h video-source.cpp video-source.h \
+	video-encoder.cpp video-encoder.h audio-source.cpp \
+	audio-source.h audio-encoder.cpp audio-encoder.h video-osd.cpp \
+	video-osd.h
+@ENABLE_OSD_TRUE@am__objects_1 = video-osd.lo
 am_libcommon_la_OBJECTS = media-common.lo media-element.lo \
 	media-stream.lo video-source.lo video-encoder.lo \
-	audio-source.lo audio-encoder.lo video-osd.lo
+	audio-source.lo audio-encoder.lo $(am__objects_1)
 libcommon_la_OBJECTS = $(am_libcommon_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -164,7 +180,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libcommon_la_SOURCES)
-DIST_SOURCES = $(libcommon_la_SOURCES)
+DIST_SOURCES = $(am__libcommon_la_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -334,36 +350,19 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = \
-	-I$(top_srcdir)/src -I$(srcdir) -I$(builddir) \
-	$(DBUSXX_CFLAGS) \
-	$(FREETYPE_CFLAGS) \
-	$(FONTCONFIG_CFLAGS) \
-	$(SDL_CFLAGS)
-
+AM_CPPFLAGS = -I$(top_srcdir)/src -I$(srcdir) -I$(builddir) \
+	$(DBUSXX_CFLAGS) $(am__append_1)
 AM_CFLAGS = -Wall
 AM_CXXFLAGS = -Wall
 noinst_LTLIBRARIES = \
 	libcommon.la
 
-libcommon_la_SOURCES = \
-	media-common.cpp \
-	media-common.h \
-	media-element.cpp \
-	media-element.h \
-	media-stream.cpp \
-	media-stream.h \
-	video-source.cpp \
-	video-source.h \
-	video-encoder.cpp \
-	video-encoder.h \
-	audio-source.cpp \
-	audio-source.h \
-	audio-encoder.cpp \
-	audio-encoder.h \
-	video-osd.cpp \
-	video-osd.h
-
+libcommon_la_SOURCES = media-common.cpp media-common.h \
+	media-element.cpp media-element.h media-stream.cpp \
+	media-stream.h video-source.cpp video-source.h \
+	video-encoder.cpp video-encoder.h audio-source.cpp \
+	audio-source.h audio-encoder.cpp audio-encoder.h \
+	$(am__append_2)
 all: all-am
 
 .SUFFIXES:

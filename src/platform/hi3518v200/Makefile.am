@@ -9,8 +9,12 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src/dbus \
 	$(LIVE555_CPPFLAGS) \
 	$(DBUSXX_CFLAGS) \
-	$(SDL_CFLAGS) \
 	$(HI3518V200_CPPFLAGS)
+
+if ENABLE_OSD
+AM_CPPFLAGS += \
+	$(SDL_CFLAGS)
+endif
 
 AM_CFLAGS = -Wall
 AM_CXXFLAGS = -Wall
@@ -36,10 +40,14 @@ libhi3518v200_la_SOURCES =  \
 	himpp-video-vpss.h \
 	himpp-video-venc.cpp \
 	himpp-video-venc.h \
-	himpp-video-region.cpp \
-	himpp-video-region.h \
 	himpp-media.cpp \
 	himpp-media.h
+
+if ENABLE_OSD
+libhi3518v200_la_SOURCES += \
+	himpp-video-region.cpp \
+	himpp-video-region.h
+endif
 
 libhi3518v200_la_LIBADD = \
 	$(top_builddir)/src/common/libcommon.la
