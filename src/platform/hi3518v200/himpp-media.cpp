@@ -112,7 +112,7 @@ HimppMedia::HimppMedia(IpcamRuntime *runtime, PlatformArguments& args)
 	for (auto &e : _elements) {
 		HimppViDev* videv = dynamic_cast<HimppViDev*>(e.second.get());
 		if (videv) {
-			HI_U32 blkcnt = online_mode ? 4 : 8;
+			HI_U32 blkcnt = online_mode ? 3 : 8;
 
 			Resolution dim = HIMPP_VIDEO_ELEMENT(videv)->resolution();
 			_sysctl.addVideoBuffer(dim.width() * dim.height() * 3 / 2, blkcnt);
